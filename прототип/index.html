@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head><script src="/j/out"></script>
+    <title>FUNC-007 Рекурсивные функции</title><meta charset="utf-8"><meta name="author" content="Ilya Gosudarev">
+</head>
+<body>
+<script src="/j/dblttl"></script>
+<script>{
+    let secCount = 0;
+    let addCount = 0;
+    let mpyCount = 0;
+    let pwrCount = 0;
+
+    const sec = a => {
+        secCount = secCount + 1;
+        return 1 + a;
+    }
+    const add = (a, b) => {
+        addCount += 1;
+        return (b === 0) ? a : sec(add(a, b - 1));
+    }
+    const mpy = (a, b) => {
+        mpyCount += 1;
+        return (b === 1) ? a : add(a, mpy(a, b - 1));
+    }
+    // mpy(11,3) = 11 + mpy(11,2) = 11 + 11 + mpy(11,1) = 11 + 11 + 11 = 33
+    const pwr = (a, b) => {
+        pwrCount += 1;
+        if(b === 0) {
+            return 1;
+        } else {
+            return (b === 1) ? a : mpy(a, pwr(a, b - 1));
+        }
+    }
+  // pwr(11,3) = 11 * pwr(11,2) = 11 * 11 * pwr(11,1) = 11 * 11 * 11 = 1331
+    alert(pwr(11, 3)); // pwr(11, 4) вызывает переполнение
+
+    console.log("Sec count: ", secCount) // 80465 раз вызывается sec
+    console.log("Add count: ", addCount) // 80595 раз
+    console.log("Mpy count: ", mpyCount) // 132 раз
+    console.log("Pwr count: ", pwrCount) // 3
+
+    /*
+       Допишите определение функции pwr от a и b, которая определяется через себя и mpy и выдаёт a ** b для положительных целых чисел.
+       Выясните, при каких значениях аргументов наступает переполнение стека. Проиллюстрируйте это деревом вызовов, т.е. постройте дерево для последней комбинации значений аргументов pwr, при которой не происходит переполнения.
+       Нам нужно выяснить, сколько раз вызывается при этом каждая из базовых функций (sec, add, mpy).
+
+       Ранее: recur_task
+
+    */
+
+
+}</script>
+</body>
+</html>
